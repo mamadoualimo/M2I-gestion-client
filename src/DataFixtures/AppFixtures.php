@@ -34,8 +34,7 @@ class AppFixtures extends Fixture
 
             $chrono = 1; // A chaque j'arejistre un nouvau user la facture part de 1
 
-            $hash = $this->encoder->encodePassword($user, "password");
-            // L'entité pour laquelle on cherche à encoder , c'est un user
+            $hash = $this->encoder->encodePassword($user, "password"); // L'entité pour laquelle on cherche à encoder , c'est un user
          
             $user->setFirstName($faker->firstName())
             ->setLastName($faker->lastName)
@@ -43,7 +42,6 @@ class AppFixtures extends Fixture
             ->setPassword($hash);
 
             $manager->persist($user);
-
 
             for ($c = 0; $c < mt_rand(5, 20); $c++) { // Pour générer rapidement les données avec fixtures on utilise toujours une boucle for
                 $customer = new Customer();
@@ -67,9 +65,6 @@ class AppFixtures extends Fixture
                     $manager->persist($invoice);
                 }
             }
-
-
-    
 
             $manager->flush();
         }
