@@ -52,7 +52,7 @@ class Customer
     /**
      * @ORM\Column(type="string", length=255)
      *  @Groups({"customers_read","invoices_read"})
-     * @Assert\NotBlank(message="Le prénom du customer est obligatoire")
+     * @Assert\NotBlank(message="Le nom de famille du customer est obligatoire")
      * @Assert\Length(min=3,minMessage="Le nom de famille doit faire entre 3  et 255 caractères", 
      * maxMessage="Le nom  de famille doit faire entre 3  et 255 caractères")
      */
@@ -82,7 +82,7 @@ class Customer
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="customers")
      *  @Groups({"customers_read","invoices_read"})
-     *  @(message="L'utilisateur  est obligatoire")
+     *  @Assert\NotBlank(message="L'utilisateur  est obligatoire")
      */
     private $user;
 
@@ -96,23 +96,23 @@ class Customer
      * return float
      */
 
-    public function getTotalAmount(): float {
-        return array_reduce($this->invoices->toArray(),function($total,$invoice){
+    public function getTotalAmount(): float
+    {
+        return array_reduce($this->invoices->toArray(), function ($total, $invoice) {
             return $total + $invoice->getAmount();
-        },0);
-
-    }/**
+        }, 0);
+    }
+    /**
      * Récuperer le montant total non payé (montant total hors factures payées ou annulées)
      * return float
-      * @Groups({"customers_read"})
+     * @Groups({"customers_read"})
      */
 
-    public function getUnpaidAmount(): float {
-        return array_reduce($this->invoices->toArray(), function($total,$invoice) {
-            return $total + ($invoice->getStatus() ==="PAID" || $invoice->getStatus() === "CANCELD" ? 0 :
-            $invoice->getAmount());
-        
-        
+    public function getUnpaidAmount(): float
+    {
+        return array_reduce($this->invoices->toArray(), function ($total, $invoice) {
+            return $total + ($invoice->getStatus() === "PAID" || $invoice->getStatus() === "CANCELD" ? 0 :
+                $invoice->getAmount());
         }, 0);
     }
 
