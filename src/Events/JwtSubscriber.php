@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Entity\User;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 
 class JwtCreatedSubscriber
